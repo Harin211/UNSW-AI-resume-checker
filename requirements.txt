@@ -1,5 +1,8 @@
 fastapi
 uvicorn
-pdfplumber
+jinja2
+pymupdf
 python-multipart
+
+
 

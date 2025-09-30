@@ -1,28 +1,41 @@
-from fastapi import FastAPI, UploadFile, File
+from flask import Flask, render_template, request, send_file
+import pdfplumber
 import os
 
-app = FastAPI()
+app = Flask(__name__)
+os.makedirs("outputs", exist_ok=True)
 
-@app.post("/convert_resume/")
-async def convert_resume(file: UploadFile = File(...)):
-    # Save uploaded file temporarily
-    file_path = f"temp_{file.filename}"
-    with open(file_path, "wb") as f:
-        f.write(await file.read())
+@app.route("/")
+def index():
+    return render_template("index.html")
 
-    # Convert PDF to text
-    import fitz  # PyMuPDF
-    doc = fitz.open(file_path)
-    text = ""
-    for page in doc:
-        text += page.get_text()
-    doc.close()
+@app.route("/upload", methods=["POST"])
+def upload():
+    file = request.files["file"]
+    if not file or not file.filename.endswith(".pdf"):
+        return "Please upload a valid PDF."
 
-    # (Optional) Save in outputs folder on Railway
-    os.makedirs("outputs", exist_ok=True)
-    output_path = f"outputs/{os.path.splitext(file.filename)[0]}.txt"
-    with open(output_path, "w") as out:
-        out.write(text)
+    # Save temporarily
+    temp_path = f"temp_{file.filename}"
+    file.save(temp_path)
 
-    # Return the text directly
-    return {"filename": file.filename, "text": text[:1000]}  # limit preview
+    # Extract text
+    all_text = ""
+    with pdfplumber.open(temp_path) as pdf:
+        for page in pdf.pages:
+            text = page.extract_text()
+            if text:
+                all_text += text + "\n"
+
+    # Save text file
+    output_path = os.path.join("outputs", f"{os.path.splitext(file.filename)[0]}.txt")
+    with open(output_path, "w", encoding="utf-8") as out:
+        out.write(all_text)
+
+    # Clean up temp file
+    os.remove(temp_path)
+
+    return send_file(output_path, as_attachment=True)
+
+if __name__ == "__main__":
+    app.run(debug=True)
