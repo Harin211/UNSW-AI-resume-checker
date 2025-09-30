@@ -9,17 +9,36 @@
       margin: 0;
       height: 100vh;
       display: flex;
+      flex-direction: column;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: #000;
+      color: #fff;
+    }
+
+    /* Header */
+    header {
+      background-color: #FFCC00; /* UNSW Yellow */
+      color: #000;
+      font-weight: 700;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    /* Center content */
+    main {
+      flex: 1;
+      display: flex;
       justify-content: center;
       align-items: center;
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at top left, #000 0%, #111 40%, #000 100%);
-      color: #fff;
-      overflow: hidden;
+      padding: 20px;
     }
 
     /* Floating glass card */
     .glass-card {
-      background: rgba(20, 20, 20, 0.6);
+      background: rgba(20, 20, 20, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
       backdrop-filter: blur(12px);
@@ -32,21 +51,16 @@
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: 700;
-      color: #FFCC00;
+      color: #fff;
       margin-bottom: 1rem;
     }
 
     .tagline {
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: #bbb;
       margin-bottom: 2rem;
-      display: inline-block;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid #FFCC00;
-      animation: typing 3s steps(50, end), blink 0.8s infinite;
     }
 
     .file-input {
@@ -77,7 +91,7 @@
     }
 
     .btn-custom {
-      background: linear-gradient(135deg, #FFCC00, #ffd633);
+      background: #fff;
       color: #000;
       border: none;
       border-radius: 50px;
@@ -89,13 +103,12 @@
     }
     .btn-custom:hover {
       transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 0 20px rgba(255, 204, 0, 0.8);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
     }
 
     #loadingSpinner {
       display: none;
       margin-top: 1.5rem;
-      animation: pulse 1.5s infinite;
     }
 
     #successMsg {
@@ -129,41 +142,33 @@
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-12px); }
     }
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.1); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.8; }
-    }
   </style>
 </head>
 <body>
-  <div class="glass-card">
-    <h1>📄 UNSW AI Resume Analyzer</h1>
-    <p class="tagline">Upload your resume. Let AI guide your future.</p>
+  <header>UNSW AI Resume Analyzer</header>
 
-    <form id="uploadForm" enctype="multipart/form-data">
-      <input type="file" class="form-control file-input" name="file" accept="application/pdf" required>
-      <button type="submit" class="btn btn-custom">Analyze Resume</button>
-    </form>
+  <main>
+    <div class="glass-card">
+      <h1>Upload Your Resume</h1>
+      <p class="tagline">AI will extract text and suggest electives tailored to you.</p>
 
-    <!-- Spinner -->
-    <div class="spinner-border text-warning" role="status" id="loadingSpinner">
-      <span class="visually-hidden">Analyzing...</span>
+      <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" class="form-control file-input" name="file" accept="application/pdf" required>
+        <button type="submit" class="btn btn-custom">Analyze Resume</button>
+      </form>
+
+      <!-- Spinner -->
+      <div class="spinner-border text-warning" role="status" id="loadingSpinner">
+        <span class="visually-hidden">Analyzing...</span>
+      </div>
+
+      <!-- Status Message -->
+      <div id="successMsg"></div>
+
+      <!-- Extracted Text -->
+      <div id="resultBox"></div>
     </div>
-
-    <!-- Status Message -->
-    <div id="successMsg"></div>
-
-    <!-- Extracted Text -->
-    <div id="resultBox"></div>
-  </div>
+  </main>
 
   <script>
     const form = document.getElementById("uploadForm");
