@@ -19,7 +19,7 @@ templates = Jinja2Templates(directory="templates")
 results_store = {}
 
 # Friend server URL
-FRIEND_SERVER_URL = "http://192.168.50.232:8000/analyze_text/"  # change if needed
+FRIEND_SERVER_URL = "https://unconformed-irretrievably-lesa.ngrok-free.dev/analyze_text/"  # change if needed
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
