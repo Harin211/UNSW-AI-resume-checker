@@ -1,8 +1,9 @@
 fastapi
-uvicorn
+uvicorn[standard]
 jinja2
-pymupdf
 python-multipart
+PyMuPDF
+httpxt
 
 
 
