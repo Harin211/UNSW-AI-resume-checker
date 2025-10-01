@@ -1,3 +1,4 @@
+# main.py
 from fastapi import FastAPI, UploadFile, File, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -22,7 +23,7 @@ FRIEND_SERVER_URL = "http://192.168.50.232:8000/analyze_text/"  # change if need
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("index.html", {"request": request, "result": None})
 
 @app.post("/upload/", response_class=HTMLResponse)
 async def upload_file(request: Request, file: UploadFile = File(...)):
@@ -61,4 +62,4 @@ async def upload_file(request: Request, file: UploadFile = File(...)):
     return templates.TemplateResponse(
         "results.html",
         {"request": request, "courses": courses_list}
-    )
+
