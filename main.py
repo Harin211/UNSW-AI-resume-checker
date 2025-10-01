@@ -62,4 +62,5 @@ async def upload_file(request: Request, file: UploadFile = File(...)):
     return templates.TemplateResponse(
         "results.html",
         {"request": request, "courses": courses_list}
+    )
 
