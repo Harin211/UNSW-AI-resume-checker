@@ -1,9 +1,13 @@
+--upgrade pip
+--upgrade setuptools
+--upgrade wheel
 fastapi
 uvicorn[standard]
 jinja2
 python-multipart
-PyMuPDF
-httpxt
+PyMuPDF==1.23.5
+httpx
+
 
 
 
