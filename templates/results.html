@@ -98,6 +98,15 @@
       font-size: 0.9rem;
       border-top: 1px solid #222;
     }
+
+    .electives-list a {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* make the whole card clickable */
+   }
+
+    
+
   </style>
 </head>
 <body>
@@ -109,13 +118,15 @@
   <section class="results">
     <h2>Recommended Electives</h2>
     {% if courses %}
-      <div class="electives-list">
-        {% for course in courses %}
-          <div class="elective-card">
-            <h3>{{ course }}</h3>
-          </div>
-        {% endfor %}
-      </div>
+  <div class="electives-list">
+    {% for course in courses %}
+      {% set course_code = course.split()[0] %}
+      <a href="https://www.handbook.unsw.edu.au/undergraduate/courses/2026/{{ course_code }}" target="_blank" class="elective-card">
+        <h3>{{ course }}</h3>
+      </a>
+    {% endfor %}
+  </div>
+
     {% else %}
       <p>No electives found for this resume.</p>
     {% endif %}
