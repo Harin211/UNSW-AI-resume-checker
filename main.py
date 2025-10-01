@@ -14,45 +14,51 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
-# Replace with your friend's server URL
-# Correct endpoint URL
-FRIEND_SERVER_URL = "http://192.168.50.232:8000/analyze_text/"
+# Temporary storage for last result
+results_store = {}
+
+# Friend server URL
+FRIEND_SERVER_URL = "http://192.168.50.232:8000/analyze_text/"  # change if needed
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@app.post("/upload/")
+@app.post("/upload/", response_class=HTMLResponse)
 async def upload_file(request: Request, file: UploadFile = File(...)):
-    # 1️⃣ Save uploaded PDF temporarily
+    # Save PDF temporarily
     file_path = f"temp_{file.filename}"
     with open(file_path, "wb") as f:
         f.write(await file.read())
 
-    # 2️⃣ Extract text from PDF
+    # Extract text from PDF
     doc = fitz.open(file_path)
     resume_text = "".join(page.get_text() or "" for page in doc)
     doc.close()
     os.remove(file_path)
 
-    # 3️⃣ Convert to JSON
+    # Convert to JSON
     payload = {"text": resume_text}
-    print(payload)
+    print("📄 Sending to friend server:")
+    print(json.dumps(payload, indent=2))
 
-    # 4️⃣ Send JSON to friend's server
+    # Send to friend's server
     try:
         async with httpx.AsyncClient() as client:
             response = await client.post(FRIEND_SERVER_URL, json=payload)
             friend_result = response.json()
     except Exception as e:
-        friend_result = {"error": f"Could not reach friend server: {e}"}
+        friend_result = {"result": f"Could not reach friend server: {e}"}
 
-    # 5️⃣ Print friend server's JSON in your terminal
     print("📄 Friend server returned:")
     print(json.dumps(friend_result, indent=2))
 
-    # 6️⃣ Render index.html and pass a success message
+    # Store result for results page
+    results_store["last"] = friend_result
+
+    # Render results page immediately
+    courses_list = friend_result.get("result", "").split("\n")
     return templates.TemplateResponse(
-        "index.html",
-        {"request": request, "result": "✅ PDF processed and sent to friend server!"}
+        "results.html",
+        {"request": request, "courses": courses_list}
     )
