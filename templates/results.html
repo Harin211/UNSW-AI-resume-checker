@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Analysis Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+<body>
+  <header>
+    <h1>UNSW AI Resume Analyzer - Results</h1>
+    <a href="/">⬅ Upload another resume</a>
+  </header>
+
+  <section class="results">
+    <h2>Top Courses Matching Your Resume</h2>
+    {% if courses %}
+      <ul>
+        {% for course in courses %}
+          <li>{{ course }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No results found.</p>
+    {% endif %}
+  </section>
+</body>
+</html>
