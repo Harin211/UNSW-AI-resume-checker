@@ -59,67 +59,60 @@
       margin-bottom: 2rem;
       font-weight: 700;
       color: var(--unsw-yellow);
-      text-shadow: 0 0 15px rgba(230,184,0,0.6);
+      text-shadow: 0 0 12px rgba(230,184,0,0.4);
     }
 
-    .electives-list {
+    /* Grid layout */
+    .electives-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
-      width: 100%;
       max-width: 1000px;
+      width: 100%;
     }
 
-    /* Futuristic elective card */
+    /* Base card */
     .elective-card {
-      position: relative;
-      padding: 2rem;
-      border-radius: 16px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-      border: 2px solid transparent;
-      background-clip: padding-box;
-      overflow: hidden;
+      background: rgba(20, 20, 20, 0.95);
+      border: 1px solid #333;
+      border-radius: 14px;
+      padding: 1.8rem;
+      box-shadow: 0 0 15px rgba(230,184,0,0.25);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       text-align: center;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
-
-    /* Neon border effect */
-    .elective-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      padding: 2px;
-      border-radius: 16px;
-      background: linear-gradient(45deg, #ffcc00, #ff6600, #ffcc00);
-      background-size: 300% 300%;
-      animation: borderGlow 6s linear infinite;
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-              mask-composite: exclude;
+    .elective-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 25px rgba(230,184,0,0.6);
     }
-
-    @keyframes borderGlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
     .elective-card h3 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--unsw-yellow);
-      margin-bottom: 0.5rem;
-      text-shadow: 0 0 10px rgba(230,184,0,0.7);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--white);
     }
-
     .elective-card p {
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: var(--light-gray);
     }
 
-    .elective-card:hover {
-      transform: translateY(-8px) scale(1.05);
-      box-shadow: 0 0 40px rgba(230,184,0,0.6);
+    /* Ranking-specific styling */
+    .elective-card.first {
+      grid-column: span 1;
+      background: linear-gradient(145deg, rgba(230,184,0,0.15), rgba(0,0,0,0.9));
+      border: 1px solid var(--unsw-yellow);
+      box-shadow: 0 0 35px rgba(230,184,0,0.9);
+      transform: scale(1.05);
+    }
+    .elective-card.second {
+      background: linear-gradient(145deg, rgba(180,180,180,0.2), rgba(0,0,0,0.9));
+      border: 1px solid #bbb;
+      box-shadow: 0 0 25px rgba(200,200,200,0.6);
+    }
+    .elective-card.third {
+      background: linear-gradient(145deg, rgba(150,150,255,0.1), rgba(0,0,0,0.9));
+      border: 1px solid #5555aa;
+      box-shadow: 0 0 18px rgba(120,120,255,0.4);
     }
 
     footer {
@@ -140,12 +133,35 @@
   <section class="results">
     <h2>Recommended Electives</h2>
     {% if courses %}
-      <div class="electives-list">
-        {% for course in courses %}
-          <div class="elective-card">
-            <h3>{{ course.code }}</h3>
-            <p>{{ course.name }}</p>
-          </div>
+      <div class="electives-grid">
+        <!-- Best Match -->
+        <div class="elective-card first">
+          <h3>{{ courses[0].code }}</h3>
+          <p>{{ courses[0].name }}</p>
+        </div>
+
+        <!-- Second Best -->
+        {% if courses|length > 1 %}
+        <div class="elective-card second">
+          <h3>{{ courses[1].code }}</h3>
+          <p>{{ courses[1].name }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Third Best -->
+        {% if courses|length > 2 %}
+        <div class="elective-card third">
+          <h3>{{ courses[2].code }}</h3>
+          <p>{{ courses[2].name }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Remaining -->
+        {% for course in courses[3:] %}
+        <div class="elective-card">
+          <h3>{{ course.code }}</h3>
+          <p>{{ course.name }}</p>
+        </div>
         {% endfor %}
       </div>
     {% else %}
