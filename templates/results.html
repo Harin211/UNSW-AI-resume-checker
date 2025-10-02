@@ -59,7 +59,7 @@
       margin-bottom: 2rem;
       font-weight: 700;
       color: var(--unsw-yellow);
-      text-shadow: 0 0 12px rgba(230,184,0,0.4);
+      text-shadow: 0 0 15px rgba(230,184,0,0.6);
     }
 
     .electives-list {
@@ -70,43 +70,56 @@
       max-width: 1000px;
     }
 
-    /* Modern elective card */
-    .electives-list a {
-      text-decoration: none;
-      color: inherit;
-    }
-
+    /* Futuristic elective card */
     .elective-card {
       position: relative;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 18px;
-      padding: 2rem 1.5rem;
+      padding: 2rem;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 2px solid transparent;
+      background-clip: padding-box;
+      overflow: hidden;
       text-align: center;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 25px rgba(0,0,0,0.4);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    /* Neon border effect */
+    .elective-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 2px;
+      border-radius: 16px;
+      background: linear-gradient(45deg, #ffcc00, #ff6600, #ffcc00);
+      background-size: 300% 300%;
+      animation: borderGlow 6s linear infinite;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+    }
+
+    @keyframes borderGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .elective-card h3 {
       font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--white);
+      font-weight: 700;
+      color: var(--unsw-yellow);
       margin-bottom: 0.5rem;
-      letter-spacing: 0.5px;
+      text-shadow: 0 0 10px rgba(230,184,0,0.7);
     }
 
     .elective-card p {
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: var(--light-gray);
-      margin: 0;
     }
 
-    /* Hover animation */
     .elective-card:hover {
-      transform: translateY(-8px) scale(1.03);
-      border: 1px solid var(--unsw-yellow);
-      box-shadow: 0 0 30px rgba(230,184,0,0.5), 0 0 60px rgba(230,184,0,0.2);
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 0 40px rgba(230,184,0,0.6);
     }
 
     footer {
@@ -129,13 +142,10 @@
     {% if courses %}
       <div class="electives-list">
         {% for course in courses %}
-          {% set course_code = course.split()[0] %}
-          <a href="https://www.handbook.unsw.edu.au/undergraduate/courses/2026/{{ course_code }}" target="_blank">
-            <div class="elective-card">
-              <h3>{{ course }}</h3>
-              <p>Click to view in UNSW Handbook</p>
-            </div>
-          </a>
+          <div class="elective-card">
+            <h3>{{ course.code }}</h3>
+            <p>{{ course.name }}</p>
+          </div>
         {% endfor %}
       </div>
     {% else %}
