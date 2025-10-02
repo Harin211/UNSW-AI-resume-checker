@@ -1,5 +1,5 @@
 :root {
-      --unsw-yellow: #e6b800; /* toned-down yellow */
+      --unsw-yellow: #e6b800; 
       --black: #0a0a0a;
       --light-gray: #cfcfcf;
       --white: #f8f8f8;
@@ -16,7 +16,6 @@
       position: relative;
     }
 
-    /* Background container */
     #grid {
       position: fixed;
       top: 0; left: 0;
@@ -26,7 +25,6 @@
       perspective: 800px;
     }
 
-    /* Nebula layer */
     .nebula {
       position: absolute;
       top: -50%; left: -50%;
@@ -44,7 +42,6 @@
       100% { transform: translate(5%, 5%) scale(1); }
     }
 
-    /* Grid plane */
     .grid-plane {
       position: absolute;
       top: 50%; left: 50%;
@@ -69,7 +66,6 @@
       50%      { opacity: 0.4; }
     }
 
-    /* --- UI --- */
     header {
       position: fixed;
       top: 0; width: 100%;
@@ -103,10 +99,9 @@
     .hero p {
       max-width: 650px; color: var(--light-gray);
       font-size: 1.2rem; margin-bottom: 2rem;
-      white-space: normal; /* allows wrapping */
+      white-space: normal; 
     }
 
-    /* Typing cursor style */
     .typing {
       border-right: 2px solid var(--unsw-yellow);
       overflow: hidden;
@@ -146,7 +141,7 @@
     section p {
       max-width: 700px; color: var(--light-gray);
       font-size: 1.1rem; margin-bottom: 2rem;
-      white-space: normal; /* wrap long text */
+      white-space: normal; 
     }
 
     .upload-box {
@@ -157,7 +152,6 @@
       box-shadow: 0 0 25px rgba(230,184,0,0.3);
     }
 
-    /* Modern file input */
     .upload-box input[type="file"] { display: none; }
     .custom-file {
       display: flex; align-items: center;
@@ -179,7 +173,7 @@
 
     .upload-box button {
       display: block;
-      margin: 0 auto; /* centered */
+      margin: 0 auto; 
       background: var(--unsw-yellow); border: none;
       padding: 0.8rem 1.8rem; border-radius: 30px;
       font-weight: 600; cursor: pointer; color: var(--black);
