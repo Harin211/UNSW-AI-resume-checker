@@ -6,10 +6,10 @@ Upload your resume PDF, and get a ranked list of courses that align with your sk
 ---
 
 ## Features  
-- 📄 **Upload your resume (PDF)** directly through the web interface  
-- 🤖 **AI-powered analysis** extracts skills and experiences from the resume  
-- 📊 **Smart course recommendations** matched against UNSW course data 
-- 🌐 **Cross-device support**: works across different machines/networks using **FastAPI + ngrok**  
+- **Upload your resume (PDF)** directly through the web interface  
+- **AI-powered analysis** extracts skills and experiences from the resume  
+- **Smart course recommendations** matched against UNSW course data 
+- **Cross-device support**: works across different machines/networks using **FastAPI + ngrok**  
 -  **Modern UI** built with Jinja2 templates and FastAPI  
 
 ---
