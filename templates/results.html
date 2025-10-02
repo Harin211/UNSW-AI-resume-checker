@@ -61,34 +61,52 @@
       color: var(--unsw-yellow);
       text-shadow: 0 0 12px rgba(230,184,0,0.4);
     }
+
     .electives-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
+      gap: 2rem;
       width: 100%;
-      max-width: 900px;
+      max-width: 1000px;
     }
+
+    /* Modern elective card */
+    .electives-list a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     .elective-card {
-      background: rgba(20, 20, 20, 0.95);
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 0 18px rgba(230,184,0,0.25);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
     }
-    .elective-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 30px rgba(230,184,0,0.6);
-    }
+
     .elective-card h3 {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 600;
       color: var(--white);
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
     }
+
     .elective-card p {
       font-size: 0.95rem;
       color: var(--light-gray);
+      margin: 0;
+    }
+
+    /* Hover animation */
+    .elective-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      border: 1px solid var(--unsw-yellow);
+      box-shadow: 0 0 30px rgba(230,184,0,0.5), 0 0 60px rgba(230,184,0,0.2);
     }
 
     footer {
@@ -98,15 +116,6 @@
       font-size: 0.9rem;
       border-top: 1px solid #222;
     }
-
-    .electives-list a {
-    text-decoration: none;
-    color: inherit;
-    display: block; /* make the whole card clickable */
-   }
-
-    
-
   </style>
 </head>
 <body>
@@ -118,15 +127,17 @@
   <section class="results">
     <h2>Recommended Electives</h2>
     {% if courses %}
-  <div class="electives-list">
-    {% for course in courses %}
-      {% set course_code = course.split()[0] %}
-      <a href="https://www.handbook.unsw.edu.au/undergraduate/courses/2026/{{ course_code }}" target="_blank" class="elective-card">
-        <h3>{{ course }}</h3>
-      </a>
-    {% endfor %}
-  </div>
-
+      <div class="electives-list">
+        {% for course in courses %}
+          {% set course_code = course.split()[0] %}
+          <a href="https://www.handbook.unsw.edu.au/undergraduate/courses/2026/{{ course_code }}" target="_blank">
+            <div class="elective-card">
+              <h3>{{ course }}</h3>
+              <p>Click to view in UNSW Handbook</p>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
     {% else %}
       <p>No electives found for this resume.</p>
     {% endif %}
