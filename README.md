@@ -24,5 +24,5 @@ Upload your resume PDF, and get a ranked list of courses that align with your sk
 ---
 
 ## Live Demo
-web-production-92048.up.railway.app
+[web-production-92048.up.railway.app](https://web-production-92048.up.railway.app/)
 
