@@ -3,6 +3,7 @@ from fastapi import FastAPI, UploadFile, File, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from pdf_to_text import extract_text
 import os
 import fitz
 import json
@@ -36,6 +37,7 @@ async def upload_file(request: Request, file: UploadFile = File(...)):
     os.remove(file_path)
 
     payload = {"text": resume_text}
+    # print(payload)
     print("📄 Sending to friend server:")
     print(json.dumps(payload, indent=2))
 
